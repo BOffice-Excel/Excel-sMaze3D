@@ -1,0 +1,39 @@
+# Project: Maze3D
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = Maze3D_private.res
+OBJ      = main.o ModClient.o ModServer.o $(RES)
+LINKOBJ  = main.o $(RES)
+LIBS     = -L"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/lib32" -L"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -L"C:/Users/ywh11/Downloads/Excel-s-Dynamic-Wallpaper-Tools-0.0.7.2/WallpaperCore" -static-libgcc -O2 -s -flto -mwindows -m32
+INCS     = -I"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/include" -I"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/include" -I"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Users/ywh11/AppData/Local/Programs/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = Maze3D.exe
+CXXFLAGS = $(CXXINCS) -m32 -lgdi32 -luser32 -lmsimg32 -luxtheme -lws2_32 -std=c++11
+CFLAGS   = $(INCS) -m32 -lgdi32 -luser32 -lmsimg32 -luxtheme -lws2_32
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+ModClient.o: ModClient.cpp
+	$(CPP) -c ModClient.cpp -o ModClient.dll $(CXXFLAGS) -DBUILDING_DLL=1
+
+ModServer.o: ModServer.cpp
+	$(CPP) -c ModServer.cpp -o ModServer.dll $(CXXFLAGS) -DBUILDING_DLL=1
+
+Maze3D_private.res: Maze3D_private.rc 
+	$(WINDRES) -i Maze3D_private.rc -F pe-i386 --input-format=rc -o Maze3D_private.res -O coff 
+
